@@ -1,3 +1,3 @@
 [local]
-localhost ansible_ssh_user=root ansible_ssh_pass=toor 
+localhost ansible_ssh_user=moo ansible_ssh_pass=LiAgWBo@()@
 
