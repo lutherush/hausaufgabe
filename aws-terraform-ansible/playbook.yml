@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  become: false
+  gather_facts: no
+
+  tasks:
+  - name: ensure git is at the latest version
+    apt:
+      name: git
+      state: latest
+
+  - name: clone the repo
+    shell: git clone https://github.com/lutherush/helloworld-node.git
+  
+  - name: build the docker image 
+    shell: cd helloworld-node && docker build -t helloworld  $$ docker tag helloworld 197452622020.dkr.ecr.us-east-1.amazonaws.com/hello-node
+  
+  - name: push docker image 
+    shell: docker push 197452622020.dkr.ecr.us-east-1.amazonaws.com/hello-node
+
+  - name: apply kubernetes file
+    shell: kubectl apply -f helloworld.yml
+

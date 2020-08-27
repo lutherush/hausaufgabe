@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  gather_facts: False
+  become: true
+  tasks:
+  - name: install dependencies 
+    command: bash /home/ubuntu/install-eks-k8
+  - name: create cluster
+    command: eksctl create cluster -f ClusterConfig-demo.yaml
+  - name: wait for provisioning
+    command: sleep 10m
+  - name: update-kubeconfig
+    command: aws eks --region eu-central-1 update-kubeconfig --name demo-k8s-cluster
+  - name: create -f k8s_resources/backend/.
+    command: kubectl create -f k8s_resources/backend/.
+  - name: create -f k8s_resources/proxy/.
+    command: kubectl create -f k8s_resources/proxy/.
+
+
+
+
+
+
